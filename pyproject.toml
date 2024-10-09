@@ -2,7 +2,7 @@
 name = "pytestproject"
 version = "0.1.0"
 description = "DQE_PyTest_Test_Automation_Frameworks"
-authors = ["mykola_rudym@epam.com"]
+authors = ["Mykola Rudym <mykola_rudym@epam.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
