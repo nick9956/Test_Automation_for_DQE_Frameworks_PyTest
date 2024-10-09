@@ -20,7 +20,8 @@ pipeline {
                 sh '''#!/bin/bash
                 ls
                 pwd
-                source /var/jenkins_home/workspace/mssql_tests/venv/bin/activate
+                find . -type f -user $USER | xargs ls -l
+                source /venv/bin/activate
                 pip install poetry
                 '''
             }
