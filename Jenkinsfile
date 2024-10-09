@@ -10,18 +10,20 @@ pipeline {
         stage('Prepare Environment') {
             steps {
                 script {
-                    if (!fileExists("${VENV}")) {
-                        sh 'python3 -m venv ${VENV}'
-                        echo "Virtual environment created."
-                    } else {
-                        echo "Virtual environment already exists."
+                    // Check if virtual environment exists, if so delete it for a clean setup
+                    if (fileExists("${VENV}")) {
+                        echo "Virtual environment found. Deleting..."
+                        sh "rm -rf ${VENV}"
+                        echo "Virtual environment deleted."
                     }
+                    // Create a new virtual environment
+                    echo "Creating a new virtual environment."
+                    sh 'python3 -m venv ${VENV}'
+                    sh 'ls -la ${VENV}/bin' // List contents to verify creation
                 }
+                // Install Poetry in the virtual environment
                 sh '''#!/bin/bash
-                cd ./venv/bin
-                ls
-                pwd
-                source ./activate
+                . ${VENV}/bin/activate
                 pip install poetry
                 '''
             }
@@ -35,6 +37,7 @@ pipeline {
                         string(credentialsId: 'db-username', variable: 'DB_USERNAME'),
                         string(credentialsId: 'db-password', variable: 'DB_PASSWORD')
                     ]) {
+                        // Write credentials to config file
                         writeFile file: "${DATABASE_CONFIG_FILE}", text: """
                         [DatabaseConfig]
                         server=${DB_SERVER}
@@ -50,7 +53,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''#!/bin/bash
-                source $WORKSPACE/${VENV}/bin/activate
+                . ${VENV}/bin/activate
                 poetry install
                 '''
             }
@@ -59,7 +62,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''#!/bin/bash
-                source $WORKSPACE/${VENV}/bin/activate
+                . ${VENV}/bin/activate
                 poetry run pytest
                 '''
             }
