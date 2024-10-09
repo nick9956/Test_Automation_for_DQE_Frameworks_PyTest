@@ -18,10 +18,10 @@ pipeline {
                     }
                 }
                 sh '''#!/bin/bash
-                cd ./venv
+                cd ./venv/bin
                 ls
                 pwd
-                source /Scripts/activate
+                source ./activate
                 pip install poetry
                 '''
             }
