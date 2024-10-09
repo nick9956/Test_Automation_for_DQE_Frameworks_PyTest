@@ -18,10 +18,10 @@ pipeline {
                     }
                 }
                 sh '''#!/bin/bash
+                cd /venv
                 ls
                 pwd
-                find . -type f -user $USER | xargs ls -l
-                source /venv/bin/activate
+                source /Scripts/activate
                 pip install poetry
                 '''
             }
