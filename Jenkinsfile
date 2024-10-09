@@ -18,8 +18,8 @@ pipeline {
                     }
                 }
                 sh '''#!/bin/bash
-                . $WORKSPACE/${VENV}/bin/activate
-                pip install poetry
+                source $WORKSPACE/${VENV}/bin/activate
+                $WORKSPACE/${VENV}/bin/pip install poetry
                 '''
             }
         }
@@ -47,7 +47,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''#!/bin/bash
-                . $WORKSPACE/${VENV}/bin/activate
+                source $WORKSPACE/${VENV}/bin/activate
                 poetry install
                 '''
             }
