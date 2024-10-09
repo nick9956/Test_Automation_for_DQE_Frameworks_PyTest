@@ -10,19 +10,20 @@ pipeline {
         stage('Prepare Environment') {
             steps {
                 script {
-                    // Check if virtual environment exists, if not create it
                     if (!fileExists("${VENV}")) {
-                        sh 'python3 -m venv ${VENV}'
+                        sh 'python -m venv ${VENV}'
+                        echo "Virtual environment created."
+                    } else {
+                        echo "Virtual environment already exists."
                     }
                 }
-                // Install Poetry in the virtual environment
+                sh 'chmod -R 755 ${VENV}'
                 sh '''
                 . ${VENV}/bin/activate
                 pip install poetry
                 '''
             }
         }
-
         stage('Set Up Credentials') {
             steps {
                 script {
