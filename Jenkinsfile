@@ -18,8 +18,10 @@ pipeline {
                     }
                 }
                 sh '''#!/bin/bash
-                source $WORKSPACE/${VENV}/bin/activate
-                $WORKSPACE/${VENV}/bin/pip install poetry
+                ls
+                pwd
+                source /var/jenkins_home/workspace/mssql_tests/venv/bin/activate
+                pip install poetry
                 '''
             }
         }
@@ -56,7 +58,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''#!/bin/bash
-                . $WORKSPACE/${VENV}/bin/activate
+                source $WORKSPACE/${VENV}/bin/activate
                 poetry run pytest
                 '''
             }
