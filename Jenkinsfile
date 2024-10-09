@@ -12,7 +12,7 @@ pipeline {
                 script {
                     // Check if virtual environment exists, if not create it
                     if (!fileExists("${VENV}")) {
-                        sh 'python -m venv ${VENV}'
+                        sh 'python3 -m venv ${VENV}'
                     }
                 }
                 // Install Poetry in the virtual environment
