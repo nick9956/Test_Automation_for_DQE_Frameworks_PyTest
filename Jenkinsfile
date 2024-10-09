@@ -18,7 +18,7 @@ pipeline {
                     }
                 }
                 sh '''#!/bin/bash
-                cd /venv
+                cd ./venv
                 ls
                 pwd
                 source /Scripts/activate
