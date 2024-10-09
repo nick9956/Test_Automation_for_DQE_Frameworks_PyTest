@@ -7,6 +7,13 @@ pipeline {
     }
 
     stages {
+        stage('Check Working Directory') {
+            steps {
+                sh 'pwd'
+                sh 'ls -la'
+            }
+        }
+        
         stage('Prepare Environment') {
             steps {
                 script {
