@@ -18,7 +18,7 @@ pipeline {
                     }
                     // Create a new virtual environment
                     echo "Creating a new virtual environment."
-                    sh 'python3 -m venv ${VENV}'
+                    sh 'python -m venv ${VENV}'
                     sh 'ls -la ${VENV}/bin' // List contents to verify creation
                 }
                 // Install Poetry in the virtual environment
