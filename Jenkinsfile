@@ -10,23 +10,27 @@ pipeline {
         stage('Prepare Environment') {
             steps {
                 script {
-                    // Check if the virtual environment exists, if not, create it
-                    if (!fileExists("${VENV}")) {
-                        echo "No virtual environment found. Creating a new one."
-                        sh """
-                            python3 -m venv ${VENV}
-                            ls -la ${VENV}/bin
-                        """
-                    } else {
-                        echo "Virtual environment already exists."
+                    // Check if virtual environment exists
+                    if (fileExists("${VENV}")) {
+                        echo "Virtual environment found."
                     }
-                }
+                    else {
+                    // Create a new virtual environment
+                    echo "Creating a new virtual environment."
+                    sh 'python3 -m venv ${VENV}'
+                    sh 'ls -la ${VENV}/bin' // List contents to verify creation
+                    // Install Poetry in the virtual environment
+                    sh '''#!/bin/bash
+                    . ${VENV}/bin/activate
+                    pip install poetry
+                    '''
+                    }                    
+                } 
                 // Install or update Poetry in the virtual environment
-                sh '''
-                    source ${VENV}/bin/activate
-                    pip install --upgrade pip
-                    pip install poetry || pip install --upgrade poetry
-                '''
+                sh '''#!/bin/bash
+                . ${VENV}/bin/activate
+                pip install poetry || pip install --upgrade poetry
+                '''               
             }
         }
 
@@ -39,7 +43,7 @@ pipeline {
                         string(credentialsId: 'db-username', variable: 'DB_USERNAME'),
                         string(credentialsId: 'db-password', variable: 'DB_PASSWORD')
                     ]) {
-                        // Write credentials to the config file
+                        // Write credentials to config file
                         writeFile file: "${DATABASE_CONFIG_FILE}", text: """
                         [DatabaseConfig]
                         server=${DB_SERVER}
@@ -55,18 +59,18 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '''
-                    source ${VENV}/bin/activate
-                    poetry install
+                sh '''#!/bin/bash
+                . ${VENV}/bin/activate
+                poetry install
                 '''
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh '''
-                    source ${VENV}/bin/activate
-                    poetry run pytest
+                sh '''#!/bin/bash
+                . ${VENV}/bin/activate
+                poetry run pytest
                 '''
             }
             post {
