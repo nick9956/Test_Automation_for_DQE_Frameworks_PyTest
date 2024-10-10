@@ -29,6 +29,7 @@ class DatabaseLibrary:
             username = config['DatabaseConfig']['username']
             password = config['DatabaseConfig']['password']
             port = config['DatabaseConfig']['port']
+            print(server, database, username, password, port)
         except KeyError as e:
             print(f"Configuration section or key missing: {e}")
             return
