@@ -2,9 +2,7 @@
 
 ## Prerequisites
 Before initiating the project setup, make sure to have the following prerequisites installed on your system:
-1. **MSSQL ODBC Driver**: The project requires the MSSQL ODBC driver for database connectivity. Download and install it from the [Microsoft official website](https://docs.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server).
-
-2. **Database Configuration**: Update your database configuration details and credentials in the provided database config file to establish a connection with your MSSQL database.
+1. **Database Configuration**: Update your database configuration details and credentials in the provided database config file to establish a connection with your MSSQL database.
 
 ## Setting Up a Virtual Environment
 For better management of project dependencies, it is advisable to use a virtual environment. Here are the steps to set up a virtual environment:
@@ -38,7 +36,7 @@ This project utilizes Poetry for managing dependencies. Follow these steps to in
 
 ### List of Dependencies
 - **Python** version 3.12
-- **pyodbc** version 5.1.0
+- **pymssql** version 2.3.1
 - **pytest** version 8.3.3 (dev dependency)
 - **pytest-html** version 4.1.1 (dev dependency)
 
