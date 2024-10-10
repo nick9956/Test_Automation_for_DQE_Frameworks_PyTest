@@ -34,6 +34,7 @@ class DatabaseLibrary:
 
         # Connection string using ODBC Driver 17 for SQL Server
         connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};Trusted_Connection=yes'
+        print(connection_string)
         try:
             self.conn = pyodbc.connect(connection_string)
             self.cursor = self.conn.cursor()

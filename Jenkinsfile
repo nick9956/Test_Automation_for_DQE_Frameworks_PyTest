@@ -45,6 +45,8 @@ pipeline {
                         username=${DB_USERNAME}
                         password=${DB_PASSWORD}
                         """
+                        echo "Logging DB config file contents for debugging:"
+                        sh "cat ${DATABASE_CONFIG_FILE}"
                     }
                 }
             }
