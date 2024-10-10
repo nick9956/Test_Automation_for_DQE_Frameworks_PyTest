@@ -1,5 +1,5 @@
 import os
-import pyodbc
+import pymssql
 import configparser
 
 
@@ -28,14 +28,13 @@ class DatabaseLibrary:
             database = config['DatabaseConfig']['database']
             username = config['DatabaseConfig']['username']
             password = config['DatabaseConfig']['password']
+            port = config['DatabaseConfig']['port']
         except KeyError as e:
             print(f"Configuration section or key missing: {e}")
             return
 
-        # Connection string using ODBC Driver 17 for SQL Server
-        connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};Trusted_Connection=yes'
         try:
-            self.conn = pyodbc.connect(connection_string)
+            self.conn = pymssql.connect(server=server, database=database, user=username, password=password, port=port)
             self.cursor = self.conn.cursor()
             print("Connected to database successfully")
         except Exception as e:
