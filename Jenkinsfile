@@ -1,36 +1,23 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.12'
-        }
-    }
-    environment {
-        DB_CONFIG_FILE = 'db/db.cfg'
-    }
+    agent any
     stages {
-        stage('Setup') {
+        stage('Prepare Environment') {
             steps {
-                sh 'pip install poetry'
-                sh 'poetry config virtualenvs.create false'
-                sh 'poetry install'
-            }
-        }
-        stage('Prepare DB Config') {
-            steps {
-                withCredentials([file(credentialsId: 'db-config', variable: 'DB_CONFIG')]) {
-                    sh 'cp $DB_CONFIG $DB_CONFIG_FILE'
+                script {
+                    // Retrieve DB config from Jenkins credentials and write to db.cfg
+                    withCredentials([file(credentialsId: 'db-config', variable: 'DB_CONFIG')]) {
+                        sh 'cp $DB_CONFIG db/db.cfg'
+                    }
                 }
             }
         }
         stage('Test') {
             steps {
-                sh 'pytest'
+                script {
+                    // Running tests using Podman
+                    sh 'podman run --rm -v $WORKSPACE:/app -w /app --network=host your-python-image pytest'
+                }
             }
-        }
-    }
-    post {
-        always {
-            sh 'rm -f $DB_CONFIG_FILE'
         }
     }
 }
