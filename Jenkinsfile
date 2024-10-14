@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // Running tests using Podman
-                    sh 'podman run --rm -v $WORKSPACE:/app -w /app --network=host your-python-image pytest'
+                    sh 'pytest'
                 }
             }
         }
