@@ -8,13 +8,17 @@ pipeline {
                     withCredentials([file(credentialsId: 'db-config', variable: 'DB_CONFIG')]) {
                         sh 'cp $DB_CONFIG db/db.cfg'
                     }
+                    // Install Poetry using pip
+                    sh 'pip install poetry'
+                    // Install project dependencies using Poetry
+                    sh 'poetry install'
                 }
             }
         }
         stage('Test') {
             steps {
                 script {
-                    // Running tests using Podman
+                    // Running tests using Pytest
                     sh 'pytest'
                 }
             }
