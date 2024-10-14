@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     // Running tests using Pytest
-                    sh 'pytest'
+                    sh 'poetry run pytest'
                 }
             }
         }
